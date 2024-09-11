@@ -27,11 +27,10 @@ on<!DOCTYPE html>
         }).addTo(map);
 
         locations.forEach(function(location) {
-            var lat = dmsToDecimal(location.Latitude);
-            var lng = dmsToDecimal(location.Longitude);
-            var popupContent = `<b>${location["Port Name"]}</b><br>
-                                Country: ${location["Country/Region"]}<br>
-                                UNLOCODE: ${location["UNLOCODE"]}`;
+            var lat = dmsToDecimal(location.port_lat);
+            var lng = dmsToDecimal(location.port_lon);
+            var popupContent = `<b>${location["destination"]}</b><br>
+                                Country: ${location["d_country"]}`;
 
             L.marker([lat, lng]).addTo(map)
                 .bindPopup(popupContent);
