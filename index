@@ -1,3 +1,5 @@
+
+
 on<!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +20,22 @@ on<!DOCTYPE html>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="locations.js"></script> <!-- This is where your locations array is stored -->
     <script>
+        function dmsToDecimal(dms) {
+            var parts = dms.match(/(\d+)[°](\d+)[']?\s*([NSEW])/);
+            if (parts) {
+                var degrees = parseInt(parts[1], 10);
+                var minutes = parseInt(parts[2], 10);
+                var direction = parts[3];
 
+                var decimal = degrees + minutes / 60;
+                if (direction === "S" || direction === "W") {
+                    decimal *= -1;
+                }
+                return decimal;
+            } else {
+                throw new Error("Invalid DMS format");
+            }
+        }
 
         var map = L.map('map').setView([37.0902, -95.7129], 4); // Center of the USA
 
@@ -27,10 +44,11 @@ on<!DOCTYPE html>
         }).addTo(map);
 
         locations.forEach(function(location) {
-            var lat = dmsToDecimal(location.port_lat);
-            var lng = dmsToDecimal(location.port_lon);
-            var popupContent = `<b>${location["destination"]}</b><br>
-                                Country: ${location["d_country"]}`;
+            var lat = dmsToDecimal(location.Latitude);
+            var lng = dmsToDecimal(location.Longitude);
+            var popupContent = `<b>${location["Port Name"]}</b><br>
+                                Country: ${location["Country/Region"]}<br>
+                                UNLOCODE: ${location["UNLOCODE"]}`;
 
             L.marker([lat, lng]).addTo(map)
                 .bindPopup(popupContent);
