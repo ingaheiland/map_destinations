@@ -27,8 +27,8 @@
         }).addTo(map);
 
         locations.forEach(function(location) {
-            var lat = location.port_lat;
-            var lng = location.port_lon;
+            var lat = location["port_lat"];
+            var lng = location["port_lon"];
             var popupContent = `<b>${location["destination"]}</b><br>
                                 Country: ${location["d_country"]}`;
 
